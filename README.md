@@ -32,8 +32,8 @@ A modern, responsive cash loan platform built with Next.js, TypeScript, Tailwind
 
 1. **Clone the repository**
    ```bash
-   git clone <your-repo-url>
-   cd PRIMEFLEX
+   git clone https://github.com/PerplexedEra/FLEXPRIME2.git
+   cd FLEXPRIME2
    ```
 
 2. **Install dependencies**
@@ -222,3 +222,4 @@ This project is proprietary. All rights reserved.
 ## Contributing
 
 This is a proprietary project. External contributions are not accepted at this time.
+
