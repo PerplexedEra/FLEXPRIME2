@@ -23,6 +23,8 @@ import {
   Lock,
   Wallet,
   Star,
+  Minus,
+  Plus,
 } from 'lucide-react'
 
 /* ── Reveal hook ── */
@@ -73,24 +75,96 @@ export default function Home() {
       <Navbar />
 
       {/* ════════════════════════════════════════════
-          HERO — Dual background: mobile portrait / desktop landscape
+          HERO — Simplified Mobile View + Landscape Desktop View
           ════════════════════════════════════════════ */}
-      <section className="relative overflow-hidden bg-white min-h-[580px] lg:min-h-[640px] flex flex-col justify-center">
-        {/* ── Mobile hero background (< md) ── */}
-        <div className="md:hidden absolute inset-0 pointer-events-none">
-          <Image
-            src="/images/HEROBACKMOBILE.PNG"
-            alt="PrimeFlex Hero"
-            fill
-            priority
-            className="object-cover object-top"
-          />
-          <div className="absolute inset-0 bg-white/75" />
-          <div className="absolute inset-x-0 bottom-0 h-24 bg-gradient-to-t from-white to-transparent" />
-        </div>
+      
+      {/* ── MOBILE HERO (< md) ── */}
+      <section className="md:hidden bg-[#E6F4EA]/40 px-4 pt-6 pb-8">
+        <div className="max-w-md mx-auto">
+          {/* Top text */}
+          <div className="mb-5">
+            <h1 className="font-serif text-[28px] sm:text-3xl font-bold text-ink leading-[1.18] tracking-tight">
+              Get your cash in as little as 15 minutes
+            </h1>
+            <p className="text-secondary text-sm mt-2 leading-relaxed">
+              Get access to cash fast with money transferred to your account within as little as 5 minutes
+            </p>
+          </div>
 
-        {/* ── Desktop hero background (md+) ── */}
-        <div className="hidden md:block absolute inset-0 pointer-events-none">
+          {/* Loan Card */}
+          <div className="bg-white rounded-2xl p-5 shadow-elevated border border-hairline-light">
+            <label className="block text-xs font-semibold text-secondary mb-3">
+              Loan amount
+            </label>
+
+            {/* Stepper with minus/plus */}
+            <div className="flex items-center justify-between bg-ground rounded-xl p-2.5 border border-hairline-light mb-4">
+              <button
+                type="button"
+                onClick={() => setLoanAmount((prev) => Math.max(500, prev - (prev <= 1000 ? 100 : 250)))}
+                disabled={loanAmount <= 500}
+                aria-label="Decrease loan amount"
+                className="w-10 h-10 rounded-full bg-primary text-white flex items-center justify-center transition-transform active:scale-95 disabled:opacity-40 disabled:cursor-not-allowed shadow-sm"
+              >
+                <Minus size={18} />
+              </button>
+
+              <span className="currency text-2xl sm:text-3xl font-bold text-ink">
+                {formatCurrency(loanAmount)}
+              </span>
+
+              <button
+                type="button"
+                onClick={() => setLoanAmount((prev) => Math.min(5000, prev + (prev < 1000 ? 100 : 250)))}
+                disabled={loanAmount >= 5000}
+                aria-label="Increase loan amount"
+                className="w-10 h-10 rounded-full bg-primary text-white flex items-center justify-center transition-transform active:scale-95 disabled:opacity-40 disabled:cursor-not-allowed shadow-sm"
+              >
+                <Plus size={18} />
+              </button>
+            </div>
+
+            {/* Range Slider */}
+            <div className="mb-5">
+              <input
+                type="range"
+                min="500"
+                max="5000"
+                step="100"
+                value={loanAmount}
+                onChange={(e) => setLoanAmount(Number(e.target.value))}
+                className="w-full"
+              />
+              <div className="flex justify-between text-xs text-tertiary mt-1.5 font-medium">
+                <span>R 500</span>
+                <span>R 5,000</span>
+              </div>
+            </div>
+
+            {/* CTA Button */}
+            <Button href={`/apply?amount=${loanAmount}`} className="w-full" size="lg">
+              Apply for a loan
+              <ArrowRight size={18} />
+            </Button>
+          </div>
+
+          {/* Customer Image below card on mobile */}
+          <div className="relative w-full h-[280px] sm:h-[340px] mt-6 rounded-2xl overflow-hidden shadow-sm">
+            <Image
+              src="/images/HEROBACKMOBILE.PNG"
+              alt="PrimeFlex Customer"
+              fill
+              priority
+              className="object-cover object-top"
+            />
+          </div>
+        </div>
+      </section>
+
+      {/* ── DESKTOP HERO (md+) ── */}
+      <section className="hidden md:flex relative overflow-hidden bg-white min-h-[580px] lg:min-h-[640px] flex-col justify-center">
+        {/* Desktop hero background */}
+        <div className="absolute inset-0 pointer-events-none">
           <Image
             src="/images/HEROBACK.PNG"
             alt="PrimeFlex Hero"
@@ -101,8 +175,8 @@ export default function Home() {
           <div className="absolute inset-y-0 left-0 w-3/5 lg:w-1/2 bg-gradient-to-r from-white via-white/90 to-transparent" />
         </div>
 
-        {/* ── Content ── */}
-        <div className="relative z-10 section py-10 sm:py-14 md:py-16 lg:py-20">
+        {/* Content */}
+        <div className="relative z-10 section py-12 lg:py-20">
           <div className="section-inner">
             <div className="grid lg:grid-cols-12 gap-8 lg:gap-12 items-center">
               
