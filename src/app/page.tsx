@@ -1,6 +1,7 @@
 'use client'
 
 import { useState, useEffect, useRef } from 'react'
+import Image from 'next/image'
 import Link from 'next/link'
 import Navbar from '@/components/Navbar'
 import Footer from '@/components/Footer'
@@ -19,6 +20,9 @@ import {
   Smartphone,
   Zap,
   Award,
+  Lock,
+  Wallet,
+  Star,
 } from 'lucide-react'
 
 /* ── Reveal hook ── */
@@ -72,35 +76,45 @@ export default function Home() {
       <Navbar />
 
       {/* ════════════════════════════════════════════
-          HERO
+          HERO WITH HEROBACK BACKGROUND
           ════════════════════════════════════════════ */}
-      <section className="relative overflow-hidden">
-        {/* Subtle warm gradient background */}
-        <div className="absolute inset-0 bg-gradient-to-br from-ground via-surface to-primary-light/30" />
+      <section className="relative overflow-hidden bg-white min-h-[580px] lg:min-h-[640px] flex flex-col justify-center">
+        {/* Background Image: HEROBACK.PNG */}
+        <div className="absolute inset-0 pointer-events-none overflow-hidden">
+          <Image
+            src="/images/HEROBACK.PNG"
+            alt="PrimeFlex Hero"
+            fill
+            priority
+            className="object-cover object-[70%_center] md:object-[65%_center] lg:object-[58%_center] xl:object-[52%_center]"
+          />
+          {/* Subtle soft white gradient overlay on left for optimal text contrast */}
+          <div className="absolute inset-y-0 left-0 w-full sm:w-3/4 lg:w-1/2 bg-gradient-to-r from-white via-white/85 to-transparent pointer-events-none" />
+        </div>
 
-        <div className="relative section py-16 lg:py-24">
+        <div className="relative z-10 section py-12 sm:py-16 lg:py-20">
           <div className="section-inner">
-            <div className="grid lg:grid-cols-12 gap-10 lg:gap-16 items-start">
+            <div className="grid lg:grid-cols-12 gap-8 lg:gap-12 items-center">
               {/* Left: copy */}
-              <div className="lg:col-span-6 xl:col-span-7 space-y-8">
-                <div className="space-y-5">
-                  <div className="inline-flex items-center gap-2 bg-primary-light text-primary px-3.5 py-1.5 rounded text-xs font-semibold uppercase tracking-wider">
+              <div className="lg:col-span-6 xl:col-span-7 space-y-6">
+                <div className="space-y-4">
+                  <div className="inline-flex items-center gap-2 bg-primary-light/80 text-primary border border-primary/20 px-3.5 py-1.5 rounded-full text-xs font-semibold uppercase tracking-wider backdrop-blur-sm">
                     <ShieldCheck size={14} />
                     NCR Registered Credit Provider
                   </div>
 
-                  <h1 className="font-serif text-display text-ink">
-                    Short-term loans,{' '}
-                    <span className="text-primary">approved in&nbsp;minutes</span>
+                  <h1 className="font-serif text-display text-ink leading-[1.12]">
+                    Short-term loans, <br className="hidden sm:inline" />
+                    <span className="text-primary">approved in minutes.</span>
                   </h1>
 
                   <p className="text-lg text-secondary leading-relaxed max-w-lg">
-                    Apply online for R500&nbsp;to R10,000. No hidden fees, no
-                    paperwork queues. Funds paid directly to your&nbsp;account.
+                    Get between R500 and R10,000 with no hidden fees, no
+                    paperwork queues. Funds paid directly to your account.
                   </p>
                 </div>
 
-                <div className="flex flex-col sm:flex-row gap-3">
+                <div className="flex flex-col sm:flex-row gap-3 pt-1">
                   <Button href="/apply" size="lg">
                     Apply Now
                     <ArrowRight size={18} />
@@ -126,27 +140,12 @@ export default function Home() {
                     </div>
                   ))}
                 </div>
-
-                {/* Hero Editorial Visual Card */}
-                <div className="relative rounded-xl overflow-hidden shadow-card border border-hairline-light group mt-4">
-                  <img
-                    src="/images/hero-financial.png"
-                    alt="PrimeFlex Financial Growth & Instant Access"
-                    className="w-full h-48 sm:h-56 object-cover transform group-hover:scale-[1.02] transition-transform duration-500"
-                  />
-                  <div className="absolute inset-0 bg-gradient-to-t from-slate-950/80 via-slate-950/20 to-transparent flex items-end p-5">
-                    <div className="text-white">
-                      <p className="text-xs font-semibold text-accent uppercase tracking-wider mb-1">Empowering South Africans</p>
-                      <p className="text-sm font-medium text-white/90">Instant digital credit evaluation with complete transparency & security.</p>
-                    </div>
-                  </div>
-                </div>
               </div>
 
               {/* Right: calculator */}
               <div className="lg:col-span-6 xl:col-span-5">
-                <Card className="p-6 sm:p-8" hover={false}>
-                  <h2 className="text-subheading font-semibold text-ink mb-6">
+                <Card className="p-6 sm:p-8 bg-white/95 backdrop-blur-md shadow-elevated border border-hairline-light rounded-2xl" hover={false}>
+                  <h2 className="text-subheading font-bold text-ink mb-6">
                     Loan Calculator
                   </h2>
 
@@ -157,7 +156,7 @@ export default function Home() {
                         <label className="text-sm font-medium text-secondary">
                           Loan Amount
                         </label>
-                        <span className="currency text-lg text-ink font-semibold">
+                        <span className="currency text-xl text-ink font-bold">
                           {formatCurrency(loanAmount)}
                         </span>
                       </div>
@@ -172,7 +171,7 @@ export default function Home() {
                         }
                         className="w-full"
                       />
-                      <div className="flex justify-between text-xs text-tertiary mt-1.5">
+                      <div className="flex justify-between text-xs text-tertiary mt-1.5 font-medium">
                         <span>R500</span>
                         <span>R10,000</span>
                       </div>
@@ -188,7 +187,7 @@ export default function Home() {
                           <button
                             key={term}
                             onClick={() => setLoanTerm(term)}
-                            className={`py-2.5 rounded text-sm font-semibold transition-all duration-150 ${
+                            className={`py-2.5 rounded-lg text-sm font-semibold transition-all duration-150 ${
                               loanTerm === term
                                 ? 'bg-primary text-white shadow-card'
                                 : 'bg-ground text-secondary hover:bg-surface-alt border border-hairline-light'
@@ -201,18 +200,18 @@ export default function Home() {
                     </div>
 
                     {/* Result */}
-                    <div className="bg-ground rounded-lg p-5 border border-hairline-light">
+                    <div className="bg-sky-50/70 rounded-xl p-5 border border-sky-100">
                       <div className="flex items-baseline justify-between mb-1">
-                        <span className="text-sm text-secondary">
+                        <span className="text-xs font-semibold text-secondary uppercase tracking-wider">
                           Estimated monthly payment
                         </span>
                       </div>
-                      <p className="currency text-3xl text-ink font-semibold">
+                      <p className="currency text-3xl text-ink font-bold text-primary">
                         {formatCurrency(Math.round(monthlyPayment))}
                       </p>
-                      <p className="text-xs text-tertiary mt-2">
+                      <p className="text-xs text-secondary/80 mt-2">
                         Total repayable:{' '}
-                        <span className="currency">
+                        <span className="currency font-semibold text-ink">
                           {formatCurrency(Math.round(monthlyPayment * loanTerm))}
                         </span>
                       </p>
@@ -222,6 +221,11 @@ export default function Home() {
                       Apply for {formatCurrency(loanAmount)}
                       <ArrowRight size={18} />
                     </Button>
+
+                    <div className="flex items-center justify-center gap-1.5 text-xs text-tertiary pt-1">
+                      <Lock size={13} className="text-secondary flex-shrink-0" />
+                      <span>Your information is 100% secure and confidential.</span>
+                    </div>
                   </div>
                 </Card>
               </div>
@@ -229,6 +233,57 @@ export default function Home() {
           </div>
         </div>
       </section>
+
+      {/* ════════════════════════════════════════════
+          TRUST STATS DARK BAR
+          ════════════════════════════════════════════ */}
+      <div className="bg-[#0B1528] text-white py-6 border-y border-white/10 relative z-20">
+        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+          <div className="grid grid-cols-2 md:grid-cols-4 gap-6 lg:gap-8 items-center">
+            <div className="flex items-center gap-3.5">
+              <div className="w-11 h-11 rounded-full border border-white/20 flex items-center justify-center flex-shrink-0 bg-white/5">
+                <ShieldCheck size={20} className="text-accent" />
+              </div>
+              <div>
+                <p className="text-xs text-white/60">Trusted by</p>
+                <p className="text-base font-bold text-white tracking-tight">
+                  100,000+ <span className="font-normal text-white/80">Customers</span>
+                </p>
+              </div>
+            </div>
+
+            <div className="flex items-center gap-3.5">
+              <div className="w-11 h-11 rounded-full border border-white/20 flex items-center justify-center flex-shrink-0 bg-white/5">
+                <Zap size={20} className="text-accent" />
+              </div>
+              <div>
+                <p className="text-xs text-white/60">Approved in</p>
+                <p className="text-base font-bold text-white tracking-tight">Minutes</p>
+              </div>
+            </div>
+
+            <div className="flex items-center gap-3.5">
+              <div className="w-11 h-11 rounded-full border border-white/20 flex items-center justify-center flex-shrink-0 bg-white/5">
+                <Wallet size={20} className="text-accent" />
+              </div>
+              <div>
+                <p className="text-xs text-white/60">Funds in your account</p>
+                <p className="text-base font-bold text-white tracking-tight">Same day</p>
+              </div>
+            </div>
+
+            <div className="flex items-center gap-3.5">
+              <div className="w-11 h-11 rounded-full border border-white/20 flex items-center justify-center flex-shrink-0 bg-white/5">
+                <Star size={20} className="text-accent" />
+              </div>
+              <div>
+                <p className="text-base font-bold text-white tracking-tight">4.7/5</p>
+                <p className="text-xs text-white/60">Customer rating</p>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
 
       {/* ════════════════════════════════════════════
           HOW IT WORKS

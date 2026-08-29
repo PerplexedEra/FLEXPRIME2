@@ -68,9 +68,15 @@ export default function Navbar() {
                 {link.label}
               </Link>
             ))}
-            <div className="ml-3">
-              <Button href="/login" size="sm">
+            <div className="ml-3 flex items-center gap-2">
+              <Link
+                href="/login"
+                className="px-3.5 py-1.5 text-sm font-semibold text-secondary hover:text-ink transition-colors rounded-md hover:bg-ground"
+              >
                 Log In
+              </Link>
+              <Button href="/apply" size="sm">
+                Apply Now
               </Button>
             </div>
           </div>
