@@ -67,9 +67,6 @@ const formatCurrency = (value: number) =>
 
 export default function Home() {
   const [loanAmount, setLoanAmount] = useState(2500)
-  const [loanTerm, setLoanTerm] = useState(3)
-
-  const monthlyPayment = loanAmount / loanTerm + (loanAmount * 0.15) / 12
 
   return (
     <div className="min-h-screen flex flex-col bg-ground">
@@ -123,7 +120,7 @@ export default function Home() {
                   </h1>
 
                   <p className="text-lg text-secondary leading-relaxed max-w-lg">
-                    Get between R500 and R10,000 with no hidden fees, no
+                    Get between R500 and R5,000 with no hidden fees, no
                     paperwork queues. Funds paid directly to your account.
                   </p>
                 </div>
@@ -156,28 +153,27 @@ export default function Home() {
                 </div>
               </div>
 
-              {/* Right: calculator */}
+              {/* Right: quick amount selector */}
               <div className="lg:col-span-6 xl:col-span-5">
                 <Card className="p-6 sm:p-8 bg-white/95 backdrop-blur-md shadow-elevated border border-hairline-light rounded-2xl" hover={false}>
-                  <h2 className="text-subheading font-bold text-ink mb-6">
-                    Loan Calculator
-                  </h2>
-
                   <div className="space-y-6">
-                    {/* Loan amount */}
                     <div>
-                      <div className="flex justify-between items-baseline mb-3">
-                        <label className="text-sm font-medium text-secondary">
+                      <span className="text-xs font-semibold uppercase tracking-wider text-secondary">
+                        How much do you need?
+                      </span>
+                      <div className="flex justify-between items-baseline mt-1 mb-3">
+                        <span className="text-sm font-medium text-secondary">
                           Loan Amount
-                        </label>
-                        <span className="currency text-xl text-ink font-bold">
+                        </span>
+                        <span className="currency text-3xl text-primary font-bold">
                           {formatCurrency(loanAmount)}
                         </span>
                       </div>
+                      
                       <input
                         type="range"
                         min="500"
-                        max="10000"
+                        max="5000"
                         step="100"
                         value={loanAmount}
                         onChange={(e) =>
@@ -185,60 +181,39 @@ export default function Home() {
                         }
                         className="w-full"
                       />
-                      <div className="flex justify-between text-xs text-tertiary mt-1.5 font-medium">
+                      <div className="flex justify-between text-xs text-tertiary mt-2 font-medium">
                         <span>R500</span>
-                        <span>R10,000</span>
+                        <span>R2,500</span>
+                        <span>R5,000</span>
                       </div>
                     </div>
 
-                    {/* Loan term */}
-                    <div>
-                      <label className="block text-sm font-medium text-secondary mb-3">
-                        Repayment Period
-                      </label>
-                      <div className="grid grid-cols-4 gap-2">
-                        {[1, 3, 6, 12].map((term) => (
-                          <button
-                            key={term}
-                            onClick={() => setLoanTerm(term)}
-                            className={`py-2.5 rounded-lg text-sm font-semibold transition-all duration-150 ${
-                              loanTerm === term
-                                ? 'bg-primary text-white shadow-card'
-                                : 'bg-ground text-secondary hover:bg-surface-alt border border-hairline-light'
-                            }`}
-                          >
-                            {term} {term === 1 ? 'mo' : 'mos'}
-                          </button>
-                        ))}
-                      </div>
+                    {/* Quick amount chips */}
+                    <div className="grid grid-cols-4 gap-2">
+                      {[1000, 2000, 3500, 5000].map((amount) => (
+                        <button
+                          key={amount}
+                          type="button"
+                          onClick={() => setLoanAmount(amount)}
+                          className={`py-2 rounded-lg text-xs font-semibold transition-all duration-150 ${
+                            loanAmount === amount
+                              ? 'bg-primary text-white shadow-card'
+                              : 'bg-ground text-secondary hover:bg-surface-alt border border-hairline-light'
+                          }`}
+                        >
+                          {formatCurrency(amount)}
+                        </button>
+                      ))}
                     </div>
 
-                    {/* Result */}
-                    <div className="bg-sky-50/70 rounded-xl p-5 border border-sky-100">
-                      <div className="flex items-baseline justify-between mb-1">
-                        <span className="text-xs font-semibold text-secondary uppercase tracking-wider">
-                          Estimated monthly payment
-                        </span>
-                      </div>
-                      <p className="currency text-3xl text-ink font-bold text-primary">
-                        {formatCurrency(Math.round(monthlyPayment))}
-                      </p>
-                      <p className="text-xs text-secondary/80 mt-2">
-                        Total repayable:{' '}
-                        <span className="currency font-semibold text-ink">
-                          {formatCurrency(Math.round(monthlyPayment * loanTerm))}
-                        </span>
-                      </p>
-                    </div>
-
-                    <Button href="/apply" className="w-full" size="lg">
+                    <Button href={`/apply?amount=${loanAmount}`} className="w-full" size="lg">
                       Apply for {formatCurrency(loanAmount)}
                       <ArrowRight size={18} />
                     </Button>
 
                     <div className="flex items-center justify-center gap-1.5 text-xs text-tertiary pt-1">
                       <Lock size={13} className="text-secondary flex-shrink-0" />
-                      <span>Your information is 100% secure and confidential.</span>
+                      <span>100% secure • Fast approval • Direct bank payout</span>
                     </div>
                   </div>
                 </Card>
