@@ -96,24 +96,31 @@ export default function Navbar() {
       {/* Mobile menu */}
       <div
         className={`md:hidden overflow-hidden transition-all duration-300 ease-out-expo ${
-          isOpen ? 'max-h-96 opacity-100' : 'max-h-0 opacity-0'
+          isOpen ? 'max-h-[420px] opacity-100' : 'max-h-0 opacity-0'
         }`}
       >
-        <div className="px-4 pb-5 pt-2 space-y-1 border-t border-hairline-light bg-surface">
+        <div className="px-4 pb-5 pt-2 space-y-0.5 border-t border-hairline-light bg-surface">
           {navLinks.map((link) => (
             <Link
               key={link.href}
               href={link.href}
               onClick={() => setIsOpen(false)}
-              className="block px-3 py-2.5 text-sm font-medium text-secondary hover:text-ink hover:bg-ground rounded-md transition-colors"
+              className="block px-3 py-3 text-[15px] font-medium text-secondary hover:text-ink hover:bg-ground rounded-lg transition-colors active:bg-ground"
             >
               {link.label}
             </Link>
           ))}
-          <div className="pt-2">
-            <Button href="/login" className="w-full" size="md">
-              Log In
+          <div className="pt-3 space-y-2.5">
+            <Button href="/apply" className="w-full" size="md">
+              Apply Now
             </Button>
+            <Link
+              href="/login"
+              onClick={() => setIsOpen(false)}
+              className="block w-full text-center px-4 py-3 text-[15px] font-semibold text-secondary hover:text-ink border border-hairline-light rounded-lg transition-colors active:bg-ground"
+            >
+              Log In
+            </Link>
           </div>
         </div>
       </div>
